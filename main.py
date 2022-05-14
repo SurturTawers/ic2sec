@@ -473,7 +473,8 @@ while(True):
             #print(i.fitnessHistory)
         plt.title("Normalidad vs Ataque")
         plt.legend(legend)
-        plt.show()
+        plt.savefig("mygraph.png")
+        # plt.show()
         #print(models)
         exit(0)
 
