@@ -1,7 +1,11 @@
 import copy
 import random
+import time
 
 import matplotlib.pyplot as plt
+
+# OPERATIONAL SETTINGS
+SAVE_GRAPHS_DIR = "graphs/"
 
 # PARÁMETROS DE LA EVOLUCIÓN
 contadorIndividuos = 0  # Contador de individuos para ID
@@ -483,7 +487,7 @@ while(True):
             # print(i.fitnessHistory)
         plt.title("Normalidad vs Ataque")
         plt.legend(legend)
-        plt.savefig("mygraph.png")
+        plt.savefig(SAVE_GRAPHS_DIR + time.ctime() + "mygraph.png")
         # plt.show()
         # print(models)
         exit(0)
