@@ -1,6 +1,11 @@
-import unittest
+"""
+To run this test, go to src folder and execute python3 test/InitialRegressionTest.py
+
+"""
+
 import os
 import sys
+import unittest
 
 sys.path.append(os.path.abspath('src'))
 
