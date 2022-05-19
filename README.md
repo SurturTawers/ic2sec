@@ -2,7 +2,18 @@
 
 # IC2SEC Múltiples poblaciones
 
-# LeL
+## How to run it?
+
+python3 src/main.py
+
+## How to run old/initial code?
+
+python3 src/old/main.py
+
+## What should happen?
+
+You should see console ouput, and a new graph on graphs directory. If you ran the old main, then the graph will have a "old" suffix.
+Note that .png won't be uploaded to github.
 
 ## to do:
 

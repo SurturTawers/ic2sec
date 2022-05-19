@@ -1,4 +1,5 @@
 import copy
+from os import close
 import random
 import time
 
@@ -153,7 +154,17 @@ class Model:
         self.fitnessHistory = []
 
     def __repr__(self):
-        return str(self.population)
+        repr = f"""
+ind #: {len(self.population)}
+memory:
+    {self.memory}
+type: {self.type}
+alertLevel: {self.alertLevel}
+repose: {self.repose}
+timeActive: {self.timeActive}
+fitnessHistory: {self.fitnessHistory}
+        """
+        return repr
 
     def initializePop(self, num=100):
         """Generar población inicial.
@@ -401,6 +412,7 @@ def evaluatePop(model=None):
     elif grafico == "elite":
         totalFitness = 0
         for i in range(int(len(model.population)*percentageElitism)):
+            # print(f"ind{i}: ", model.population[i].fitness)
             totalFitness = totalFitness + model.population[i].fitness
         totalFitness = totalFitness / \
             int(len(model.population)*percentageElitism)
@@ -439,7 +451,7 @@ def attack(listFitness, models=None):
     return False
 
 
-def main():
+def main(verbose=False):
     # Creamos los modelos
     selfModel = Model()
     selfModels = [selfModel]
@@ -456,7 +468,8 @@ def main():
     # print(selfModel)
 
     file1 = open("data/1000_1000.txt", "rt")
-    file2 = open("data/incidente_parsed.txt", "rt")
+    # file2 = open("data/incidente_parsed.txt", "rt")
+    print("INPUT_FILE is", file1.name)
 
     currentFile = file1
 
@@ -472,7 +485,7 @@ def main():
         if(ticks % 100 == 0):
             for i in models:
                 if not i.repose:
-                    print(str(ticks)+i.type)
+                    if (verbose): print(str(ticks)+i.type)
 
         # if(ticks == 68634):
         #    currentFile = file2
@@ -480,7 +493,7 @@ def main():
         # Leemos y procesamos el siguiente paquete
         packet = parsePacket(currentFile)
         if(packet == ""):
-            print("Parece que se terminó el archivo")
+            if (verbose): print("Parece que se terminó el archivo")
             legend = []
             for i in models:
                 plt.plot(i.fitnessHistory)
@@ -488,10 +501,11 @@ def main():
                 # print(i.fitnessHistory)
             plt.title("Normalidad vs Ataque")
             plt.legend(legend)
-            plt.savefig(SAVE_GRAPHS_DIR + time.ctime() + "mygraph.png")
+            plt.savefig(SAVE_GRAPHS_DIR + time.ctime() + " old.png")
             # plt.show()
             # print(models)
             # exit(0)
+            currentFile.close()
             break
 
         if(packet in packetList):
@@ -521,7 +535,7 @@ def main():
                 i.repose = True
                 i.alertLevel = 0
                 i.timeActive = 0
-                print("cambio")
+                if (verbose): print("cambio")
 
         # Esto controla cada cuantas generaciones se realiza una cruza. (def = 1, osea en todas)
         if(not ticks % cycles):
@@ -530,6 +544,7 @@ def main():
             # input()
             for i in models:
                 medianFitness = evaluatePop(i)
+                # print("Medianfitness", medianFitness)
                 if ataqueModel == None:
                     fitnessHistory.append(-1)
                 # Evaporamos la feromona de las poblaciones
@@ -539,13 +554,14 @@ def main():
             for i in models:
                 if not i.repose and i.timeActive >= 100:
                     if attack(i.fitnessHistory) and ticks > newMemory*2:
-                        print("EN ATAQUE "+str(i.alertLevel) +
+                        if (verbose): print("EN ATAQUE "+str(i.alertLevel) +
                               " "+i.type+" "+str(i.timeActive))
                         i.addFeromone(feromoneAdded)
 
             # Realizamos la seleccion de padres
             for i in models:
                 if not i.repose:
+                    # print("cruza")
                     parentsSize = int(len(i.population)*(1-percentageElitism))*2
                     parents = i.selectParents(
                         parentsSize if parentsSize % 2 == 0 else parentsSize+1)
@@ -567,8 +583,9 @@ def main():
                     j.fitness = 0
                 if i.memory != None:
                     i.memory.fitness = 0
-            # Actualizamos la matriz de todos los agentes si hay un nuevo paquete que agregar a sus genes
-            i.checkDictionaryUpdate()
+
+                # Actualizamos la matriz de todos los agentes si hay un nuevo paquete que agregar a sus genes
+                i.checkDictionaryUpdate()
 
         lastPacket = packet
 
@@ -578,4 +595,7 @@ def main():
     # Retorna models para que sea testeable.
     models = selfModels + nonSelfModels
     return models
+
+if __name__ == "__main__":
+    main(verbose=True)
 
