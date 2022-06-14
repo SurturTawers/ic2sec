@@ -1,7 +1,7 @@
 import random
 import copy
-from Individual import Individual
-from utils import *
+from src.Individual import Individual
+from src.utils import *
 
 class Population:
     def __init__(self, individuals=[], modelType="normal"):

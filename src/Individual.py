@@ -1,5 +1,5 @@
 import random
-from settings import *
+from src.settings import *
 
 class Individual:
     # El diccionario "genes" tiene la forma:

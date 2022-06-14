@@ -1,5 +1,5 @@
-from Individual import Individual
-from settings import *
+from src.Individual import Individual
+from src.settings import *
 
 def elitism(population, news):
     """Ordenar segun fitness y eliminar a los peores reemplazandolos por los hijos creados.
@@ -134,7 +134,7 @@ def evaluatePop(pop=None):
     elif GRAPH == "elite":
         totalFitness = 0
         for i in range(int(len(pop.individuals)*PERCENTAGE_ELITISM)):
-            # print(f"ind{i}: ", pop.individuals[i].fitness)
+            #print(f"ind{i}: ", pop.individuals[i].fitness)
             totalFitness = totalFitness + pop.individuals[i].fitness
         totalFitness = totalFitness / \
             int(len(pop.individuals)*PERCENTAGE_ELITISM)
