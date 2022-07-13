@@ -1,6 +1,10 @@
 # OPERATIONAL SETTINGS
 SAVE_GRAPHS_DIR = "graphs/"
 INPUT_FILE = "data/1000_1000.txt"
+#Ambos archivos dejan con fitness de individuos = 0
+#fix pq se cae el programa
+#INPUT_FILE = "data/udp_parsed.txt"
+#INPUT_FILE = "data/normal+ataque_parsed.txt"
 
 # EVOLUTION SETTINGS 
 INDIVIDUAL_COUNT = 0  # Contador de individuos para ID
