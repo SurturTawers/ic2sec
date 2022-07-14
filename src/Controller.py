@@ -1,6 +1,6 @@
 import copy
 import os
-import time
+from datetime import datetime
 import matplotlib.pyplot as plt
 
 from src.Population import Population
@@ -42,10 +42,10 @@ class Controller():
                 # print(i.fitnessHistory)
             plt.title("Normalidad vs Ataque")
             plt.legend(legend)
-            date = str(time.ctime())
-            date = date.replace(" ", "_")
-            date = date.replace(":", "-")
+            date = str(datetime.now())
+            date = date.replace(" ", "_").replace(":", "-").replace(".", "-")
             plt.savefig(os.path.join(SAVE_GRAPHS_DIR,date))
+            print(f"Plot saved in {os.path.join(SAVE_GRAPHS_DIR,date)}.png")
             #plt.show()
             #print(self.populations)
             # exit(0)
@@ -65,10 +65,11 @@ class Controller():
         """
 
         print(f"INPUT_FILE is ", INPUT_FILE)
-        current_file = open(INPUT_FILE, "rt")
+        current_file = open(INPUT_FILE, "r")
 
         # Use TICKS global variable.
         global TICKS
+        TICKS = 0
 
         # Create initial pop. 
         self.normal_pop = Population()
@@ -80,6 +81,7 @@ class Controller():
         lastPacket = None
         lineas=0
         while(True):
+            # if self.verbose: print(TICKS)
             TICKS = TICKS + 1
             if(TICKS % 100 == 0):
                 for i in self.populations:
@@ -88,6 +90,7 @@ class Controller():
 
             # Leemos y procesamos el siguiente paquete
             packet = parsePacket(current_file)
+            # if self.verbose: print(packet)
             #lineas+=1
             #print("lineas: "+ str(lineas))
             if(packet in self.packetList):
@@ -151,7 +154,6 @@ class Controller():
                 # print(i.repose)
                 # print(i.alertLevel)
                 # print(i.timeActive)
-                
                 # Vemos si es necesario realizar cambio al modelo de ataque
                 if (not i.repose) and i.alertLevel > ATTACK_THRESHOLD and i.timeActive >= 100:
                     # if ataqueModel == None:

@@ -79,6 +79,9 @@ def crossIndividuals2(parent1={}, parent2={}):
     for i in parent1.keys():
         lista = []
         for j in range(len(parent1.get(i))):
+            # print(parent1.get(i))
+            # print(parent2.get(i))
+
             probability = ((parent1.get(i))[j][1]+(parent2.get(i))[j][1])/2
             lista.append([parent1.get(i)[j][0], probability])
         d1[i] = lista
