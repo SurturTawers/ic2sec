@@ -4,13 +4,13 @@
 
 ## How to run it?
 
-  pipenv shell # Para activar el env virtual.
+ ```pipenv shell # Para activar el env virtual.```
   
-  python3 main.py
+  ```python3 main.py```
 
 ## How to run old/initial code?
 
-  python3 src/old/main.py
+  ```python3 src/old/main.py```
 
 ## What should happen?
 
@@ -19,9 +19,9 @@ Note that .png won't be uploaded to github.
 
 ## How to run the main multiple times?
    
-  pipenv shell # Para activar el env virtual.
+  ```pipenv shell # Para activar el env virtual.```
   
-  ./run.sh
+  ```./run.sh```
 
 ## to do:
 
